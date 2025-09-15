@@ -134,7 +134,6 @@ class UserModel extends Model
             51 => 'Commandement',
             63 => 'Char de Combat',
         ];
-
         
 
         $builder = $this->db->table('xf_user');
@@ -199,7 +198,9 @@ class UserModel extends Model
             }
         }
 
-        return $result;
+        $ordered = array_replace(array_fill_keys($troopNames, []), $result);
+
+        return $ordered;
     }
     
     public function getJobsTree()
