@@ -1,0 +1,14 @@
+/* Mixins */
+
+// Gestion des breakpoints responsives.
+@mixin bkp-max($breakpoint) {
+    @media only screen and (max-width: map-get($breakpoints, $breakpoint)) {
+        @content;
+    }
+}
+
+@mixin bkp-min($breakpoint) {
+    @media only screen and (min-width: map-get($breakpoints, $breakpoint)) {
+        @content;
+    }
+}

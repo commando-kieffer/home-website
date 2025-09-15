@@ -1,0 +1,57 @@
+p {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+
+    @include bkp-max(md) {
+        font-size: 14px;
+    }
+
+    &.bold {
+        font-weight: 600;
+    }
+
+    &.subheading {
+        font-family: "Montserrat", sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14.16px;
+    
+        &.bold {
+            font-weight: 600;
+        }
+    }
+
+    &.callout {
+        font-family: "Montserrat", sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 15.09px;
+    
+        &.bold {
+            font-weight: 600;
+        }
+    }
+
+    &.caption {
+        display: none;
+
+        font-family: "Montserrat", sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 25.89px;
+        text-align: left;
+
+        margin-bottom: -2rem;
+
+        @include bkp-max(xl) {
+            display: block;
+            width: fit-content;
+        }
+    
+        &.bold {
+            font-weight: 600;
+        }
+    }
+}

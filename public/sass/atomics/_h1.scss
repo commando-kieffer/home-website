@@ -1,0 +1,15 @@
+h1 {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 52px;
+    color: #0e341c;
+
+    @include bkp-max(md) {
+        font-size: 42px;
+    }
+
+    &.bold {
+        font-weight: 800;
+    }
+}

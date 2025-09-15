@@ -1,0 +1,10 @@
+a {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+
+    &.bold {
+        font-weight: 700;
+    }
+}

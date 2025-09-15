@@ -1,0 +1,15 @@
+h4 {
+    font-family: "Montserrat", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    color: #0e341c;
+
+    @include bkp-max(md) {
+        font-size: 18px;
+    }
+
+    &.bold {
+        font-weight: 500;
+    }
+}

@@ -1,0 +1,63 @@
+/* Base */ 
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+main {
+    background-color: #f6f7f9;
+    min-height: calc(100vh - 88px - 136px - 6rem);
+    overflow-y: auto;
+}
+
+.medal {
+    height: 2rem;
+}
+
+.jacket {
+    height: 3rem;
+}
+
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.user-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tooltip-text {
+    position: absolute;
+    left: 25%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4em;
+    white-space: normal;
+    max-width: 400px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-wrapper:hover .tooltip-text {
+    opacity: 1;
+}
