@@ -2,7 +2,7 @@
     <div class="container--main">
         <h1 style="margin-bottom: 3rem;">Unis et Imprenables depuis 2004</h1>
         <blockquote>
-            Le Commando Kieffer est un clan à tendance militaire sur le jeu Black Ops 6 qui commémore le célébre et véritable commando français ayant débarqué le 6 juin 1944. Le Commando Kieffer a été créé le 11 Novembre 2004 sur Call of Duty 1 : La Grande Offensive.
+            Le Commando Kieffer est un clan à tendance militaire sur le jeu Battlefield 6 qui commémore le célébre et véritable commando français ayant débarqué le 6 juin 1944. Le Commando Kieffer a été créé le 11 Novembre 2004 sur Call of Duty 1 : La Grande Offensive.
         </blockquote>
 
         <h2>Comment nous rejoindre ?</h2>

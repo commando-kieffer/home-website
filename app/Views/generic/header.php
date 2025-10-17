@@ -24,7 +24,10 @@
                 <a href="/"><img src="/pictures/logo_ck_vert.png" alt="Logo du CK"></a>
             </div>
         </div>
-        <div class="right--header">
+        <div class="right--header" style="display: flex">
+            <p class="btn btn--secondary" style="margin-right: 0.3rem;">
+                <a href="https://discord.gg/QJuPjJVNEt"><img src="/pictures/discord.png" style="height: 2rem !important" alt="Discord"></a></a>
+            </p>
             <p class="btn btn--secondary">
                 <a href="https://forum.commandokieffer.com/index.php?threads/comment-%C3%AAtre-recrut%C3%A9.1265/">Nous rejoindre</a>
             </p>
