@@ -28,7 +28,7 @@
         const CHIEF_ID = "Commandant"
         const ROLE_OFFICER_CONFIG = (label, officer, members) => ({
             id: label,
-            name: officer ? officer.name : 'Poste de chef à pourvoir',
+            name: officer ? officer.username : 'Poste de chef à pourvoir',
             label_text: `<span style="font-size:36px; text-transform: uppercase; ">%role</span><br><img width=64 height=64 margin_bottom=4 src=%image><br><span style="font-size:32px;">%name</span><br><span style="font-size:16px;">${officer ? officer.primary_group : 'Lancez vous !'}</span>`,
             annotation: {margin: 100, width: 450},
             tooltip: `<div class="tooltip-container">
