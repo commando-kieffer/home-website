@@ -29,7 +29,7 @@
                 <a href="https://discord.gg/QJuPjJVNEt"><img src="/pictures/discord.png" style="height: 2rem !important" alt="Discord"></a></a>
             </p>
             <p class="btn btn--secondary">
-                <a href="https://forum.commandokieffer.com/index.php?threads/comment-%C3%AAtre-recrut%C3%A9.1265/">Nous rejoindre</a>
+                <a href="https://forum.commandokieffer.com/index.php?threads/comment-%C3%AAtre-recrut%C3%A9.9420/">Nous rejoindre</a>
             </p>
         </div>
         <div class="mobile-menu">
