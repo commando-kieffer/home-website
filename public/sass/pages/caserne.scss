@@ -313,12 +313,12 @@ main.main-caserne {
         &.mobile {
             display: none;
 
-            @media (max-width: 576px) {
+            @media (max-width: 400px) {
                 display: block;
             }
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 400px) {
             display: none;
             font-size: 0.70rem;
         }
