@@ -87,6 +87,8 @@ class UserModel extends Model
             41 => 'TROOP QG',
             45 => 'TROOP 2',
             46 => 'TROOP 3',
+            87 => 'TROOP 4',
+            88 => 'TROOP 5',
         ];
 
         $bordeeNames = [
