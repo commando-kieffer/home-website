@@ -283,6 +283,7 @@ function generateMatricule($rank, $name, $troopName, $spec) {
                                             <span><?= esc(ucwords(mb_strtolower($user['username']))); ?></span>
                                         </div>
                                         <div class="user-specialty"><?= esc(ucfirst(mb_strtolower($user['specialite']))); ?></div>
+                                        <div class="user-specialty mobile"><?= esc(getSpecialtyTag($user['specialite'])); ?></div>
                                         <svg class="specialty-icon" viewBox="0 0 24 24">
                                             <?= getSpecialtyIcon($user['specialite']); ?>
                                         </svg>
