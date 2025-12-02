@@ -10,6 +10,26 @@ function getTroopColor($name) {
     return '#607d8b'; // Gris Bleu par défaut (Recrues/Réservistes)
 }
 
+function getSpecialtyTag($spec) {
+    // Par défaut : les 3 premières lettres
+    $sTag = substr($spec, 0, 3);
+    
+    // Logique spécifique
+    if (stripos($spec, 'Fusilier') !== false) $sTag = 'Fsl';
+    elseif (stripos($spec, 'Assaut') !== false) $sTag = 'Ast';
+    elseif (stripos($spec, 'Soutien') !== false) $sTag = 'Stn';
+    elseif (stripos($spec, 'Sapeur') !== false) $sTag = 'Sap';
+    elseif (stripos($spec, 'Infirmier') !== false) $sTag = 'Inf';
+    elseif (stripos($spec, 'Voltigeur') !== false) $sTag = 'Vol';
+    elseif (stripos($spec, 'Tireur de précision') !== false) $sTag = 'Tp';
+    elseif (stripos($spec, "Tireur d'élite") !== false) $sTag = 'Snp';
+    elseif (stripos($spec, "Officier Marinier") !== false) $sTag = 'Cmd';
+    elseif (stripos($spec, "Officier") !== false) $sTag = 'Cmd';
+    elseif (stripos($spec, "Commandement") !== false) $sTag = 'Cmd';
+
+    return ucfirst($sTag);
+}
+
 // Récupération de l'icône SVG
 function getSpecialtyIcon($specialty) {
     $s = mb_strtolower($specialty);
@@ -102,18 +122,7 @@ function generateMatricule($rank, $name, $troopName, $spec) {
     elseif (stripos($troopName, 'TROOP 3') !== false) $tTag = '3';
 
     // Association spécialitée > spécialité tag
-    $sTag = substr($spec, 0, 3);
-    if (stripos($spec, 'Fusilier') !== false) $sTag = 'Fsl';
-    if (stripos($spec, 'Assaut') !== false) $sTag = 'Ast';
-    if (stripos($spec, 'Soutien') !== false) $sTag = 'Stn';
-    if (stripos($spec, 'Sapeur') !== false) $sTag = 'Sap';
-    if (stripos($spec, 'Infirmier') !== false) $sTag = 'Inf';
-    if (stripos($spec, 'Voltigeur') !== false) $sTag = 'Vol';
-    if (stripos($spec, 'Tireur de précision') !== false) $sTag = 'Tp';
-    if (stripos($spec, "Tireur d'élite") !== false) $sTag = 'Snp';
-    if (stripos($spec, "Officier Marinier") !== false) $sTag = 'Cmd';
-    if (stripos($spec, "Officier") !== false) $sTag = 'Cmd';
-    if (stripos($spec, "Commandement") !== false) $sTag = 'Cmd';
+    $sTag = getSpecialtyTag($spec);
 
     return ucfirst($rTag) . '.' . ucfirst(mb_strtolower($name)) . '.' . $tTag . ucfirst($sTag);
 }
@@ -183,6 +192,7 @@ function generateMatricule($rank, $name, $troopName, $spec) {
                                 <span><?= esc(ucwords(mb_strtolower($chef['username']))); ?></span>
                             </div>
                             <div class="user-specialty"><?= esc(ucfirst(mb_strtolower($chef['specialite'] ?? 'Commandement'))); ?></div>
+                            <div class="user-specialty mobile"><?= esc(getSpecialtyTag($chef['specialite'] ?? 'Commandement')); ?></div>
                             <svg class="specialty-icon" viewBox="0 0 24 24">
                                 <?= getSpecialtyIcon($chef['specialite'] ?? 'Commandement'); ?>
                             </svg>
@@ -227,6 +237,7 @@ function generateMatricule($rank, $name, $troopName, $spec) {
                                             <span><?= esc(ucwords(mb_strtolower($user['username']))); ?></span>
                                         </div>
                                         <div class="user-specialty"><?= esc(ucfirst(mb_strtolower($user['specialite']))); ?></div>
+                                        <div class="user-specialty mobile"><?= esc(getSpecialtyTag($user['specialite'])); ?></div>
                                         <svg class="specialty-icon" viewBox="0 0 24 24">
                                             <?= getSpecialtyIcon($user['specialite']); ?>
                                         </svg>
