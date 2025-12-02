@@ -1,0 +1,531 @@
+:root {
+    /* Palette Tactique globale */
+    --bg-color: #0e341c1c;
+    --card-bg: #f2f3f2;
+    --text-main: #2c3e50;
+    --text-muted: #546e7a;
+    --border-color: #b0bec5;
+}
+
+main.main-caserne {
+    font-family: 'Montserrat',
+        sans-serif;
+    background: url("../../pictures/background_gw.png");
+    background-color: var(--bg-color);
+    background-size: cover;
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+
+    h1 {
+        text-align: center;
+        padding: 1.5rem 0;
+        font-size: 2.5rem;
+        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    .barracks-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(630px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1800px;
+        margin: auto;
+    }
+
+    /* --- CARTE UNITÉ --- */
+    .troop-card {
+        background: var(--card-bg);
+        border: 2px solid #546e7a;
+        border-radius: 0;
+        /* Pas d'arrondis = look militaire strict */
+        box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+        /* Ombre dure */
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        position: relative;
+        overflow: hidden;
+
+        /* Bordure supérieure colorée dynamique */
+        border-top: 6px solid var(--unit-color, #607d8b);
+    }
+
+    /* Bandeau hachuré décoratif en haut à droite */
+    .troop-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background: repeating-linear-gradient(45deg,
+                rgba(0, 0, 0, 0.05),
+                rgba(0, 0, 0, 0.05) 10px,
+                rgba(0, 0, 0, 0.1) 10px,
+                rgba(0, 0, 0, 0.1) 20px);
+        clip-path: polygon(100% 0, 0 0, 100% 100%);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    /* Indicateur "CLASSIFIED" */
+    .troop-card::after {
+        content: "classifié";
+        position: absolute;
+        right: -30px;
+        background: #333;
+        color: #fff;
+        font-size: 0.6rem;
+        padding: 2px 30px;
+        transform: rotate(45deg);
+        text-transform: uppercase;
+        z-index: 10;
+        letter-spacing: 2px;
+        border: 1px dashed white;
+    }
+
+    .troop-header-caserne {
+        position: relative;
+        border-bottom: 2px solid var(--text-main);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .troop-header-caserne h2 {
+        margin: 0;
+        font-size: 2rem;
+        text-transform: uppercase;
+        color: var(--unit-color, #2c3e50);
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Effet de soulignement technique */
+    .troop-header::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 1px;
+        background: var(--text-main);
+        margin-top: 4px;
+    }
+
+    /* --- BLOC CHEF (Dossier prioritaire) --- */
+    .troop-leader {
+        background-color: #eceff1;
+        padding: 1rem;
+        border: 1px solid #cfd8dc;
+        border-left: 6px solid var(--unit-color, #607d8b);
+        position: relative;
+    }
+
+    /* Étiquette "COMMANDEMENT" */
+    .troop-leader::before {
+        content: "CMD_UNIT";
+        position: absolute;
+        top: -10px;
+        right: 10px;
+        background: var(--unit-color, #607d8b);
+        color: #fff;
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        font-weight: bold;
+    }
+
+    .troop-leader h3,
+    .bordee-column h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-muted);
+        border-bottom: 1px dashed #b0bec5;
+        display: inline-block;
+    }
+
+    /* --- GRILLE DES MEMBRES --- */
+    .members-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 1rem;
+    }
+
+    /* --- PROFIL UTILISATEUR (Fiche Matricule) --- */
+    .user-profile {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem 0.75rem;
+        background-color: #fff;
+        margin-bottom: 0.5rem;
+        border: 1px solid #e0e0e0;
+        position: relative;
+        transition: transform 0.2s;
+        padding-right: 40px;
+        cursor: pointer;
+        /* Place pour l'icône */
+
+        /* --- WRAPPER JACKET & TOOLTIP --- */
+        .jacket-wrapper {
+            position: relative;
+            /* Indispensable pour positionner la tooltip par rapport à l'image */
+            display: flex;
+            /* Pour coller à la mise en page existante */
+            align-items: center;
+            cursor: help;
+            /* Le curseur loupe demandé */
+
+            /* Comportement au survol */
+            &:hover .rank-tooltip {
+                visibility: visible;
+                opacity: 1;
+                transform: translate(-50%, -10px);
+                /* Petit effet de montée */
+                transition-delay: 0.1s;
+                /* Évite les clignotements si on passe vite */
+            }
+        }
+
+        /* --- LA TOOLTIP ELLE-MÊME --- */
+        .rank-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 100%;
+            /* S'affiche au-dessus de l'image */
+            left: 50%;
+            transform: translate(-50%, 0);
+            /* Centré horizontalement */
+
+            /* Style Tactique */
+            background-color: #ffffff;
+            border: 2px solid var(--unit-color, #607d8b);
+            /* Bordure sombre stricte */
+            /* Rappel couleur unité */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 4px;
+            z-index: 100;
+            width: 120px;
+            /* Largeur fixe pour éviter que le texte ne soit trop large */
+            text-align: center;
+            pointer-events: none;
+            /* La souris passe au travers */
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+            /* Petite flèche en bas de la tooltip (Optionnel mais joli) */
+            &::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -6px;
+                border-width: 10px;
+                border-style: solid;
+                border-color: var(--text-main) transparent transparent transparent;
+            }
+
+            /* L'image agrandie dans la tooltip */
+            img {
+                width: 100px;
+                /* Plus grand que les 52px de base */
+                height: 100px;
+                object-fit: contain;
+                margin-bottom: 0.5rem;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            /* Le texte du rang */
+            .rank-name {
+                display: block;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 0.7rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: var(--text-main);
+                line-height: 1.2;
+                padding-top: 0.5rem;
+                border-top: 1px dashed #ccc;
+                /* Séparateur tactique */
+            }
+        }
+    }
+
+    .user-profile:hover {
+        transform: translateX(4px);
+        border-left: 3px solid var(--unit-color, #607d8b);
+    }
+
+    /* Style spécifique pour les gradés dans la liste (s'ils ont la classe .cmd) */
+    // .user-profile.cmd {
+    //     border: 2px solid var(--unit-color, #607d8b);
+    // }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .user-info span {
+        font-weight: 500;
+        font-size: 1rem;
+        text-transform: capitalize;
+        color: #1d1d1d
+            /* Force le majuscule style matricule */
+    }
+
+    /* Photo avec cadre "viseur" */
+    .user-profile .jacket {
+        width: 52px;
+        height: 52px;
+        border-radius: 20%;
+        object-fit: cover;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8) inset;
+    }
+
+    /* Spécialité style "Code" */
+    .user-specialty {
+        text-align: right;
+        font-size: 0.75rem;
+        color: var(--unit-color, #607d8b);
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .specialty-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        fill: #78909c;
+        opacity: 0.8;
+    }
+
+    /* Icône colorée si c'est un chef */
+    .user-profile.cmd .specialty-icon {
+        fill: var(--unit-color, #607d8b);
+    }
+
+    .empty-msg {
+        font-style: italic;
+        color: #90a4ae;
+        font-size: 0.85rem;
+        padding: 0.5rem;
+        border: 1px dashed #cfd8dc;
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 900px) {
+        .barracks-container {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+        }
+
+        .members-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+
+    /* --- MODALE DOSSIER TACTIQUE --- */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        /* Fond très sombre */
+        backdrop-filter: blur(4px);
+        /* Effet de flou moderne */
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+
+        &.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    .modal-dossier {
+        background: var(--card-bg);
+        width: 90%;
+        max-width: 700px;
+        border: 4px solid var(--text-main);
+        /* Bordure épaisse */
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        position: relative;
+        padding: 2rem;
+        color: var(--text-main);
+
+        /* Décoration "Top Secret" */
+        &::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px dashed var(--border-color);
+            pointer-events: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            line-height: 1;
+
+            &:hover {
+                color: #c0392b;
+            }
+        }
+    }
+
+    .modal-body {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 2;
+
+        /* Responsive mobile */
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    }
+
+    /* --- COLONNE GAUCHE (VISUEL) --- */
+    .col-visual {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-right: 2px solid var(--border-color);
+        padding-right: 1rem;
+
+        @media (max-width: 768px) {
+            width: 100%;
+            border-right: none;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .jacket-frame {
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--text-main);
+            padding: 5px;
+            background: #fff;
+            margin-bottom: 1rem;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
+        h3 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 0;
+            color: var(--text-muted);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+    }
+
+    /* --- COLONNE DROITE (DATA) --- */
+    .col-data {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+
+        h2 {
+            margin: 0 0 0.5rem 0;
+            font-family: 'Black Ops One', cursive;
+            /* Si dispo, sinon police titre */
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            color: var(--text-main);
+            border-bottom: 4px solid var(--text-main);
+            padding-bottom: 0.5rem;
+        }
+
+        .data-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .value {
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            &.code-font {
+                font-family: 'Courier New', monospace;
+                background: #e0e0e0;
+                padding: 2px 8px;
+                display: inline-block;
+                border-left: 4px solid #333;
+                width: fit-content;
+            }
+        }
+    }
+
+    .modal-footer {
+        border-top: 1px dashed var(--text-muted);
+        padding-top: 1rem;
+        display: flex;
+        justify-content: flex-end;
+        /* Alignement à droite */
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.9rem;
+
+        @media (max-width: 768px) {
+            justify-content: center;
+        }
+    }
+}
