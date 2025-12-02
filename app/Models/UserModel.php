@@ -129,6 +129,7 @@ class UserModel extends Model
             32 => 'Médecin',
             33 => 'Pilote',
             48 => 'Transmission',
+            47 => 'Tireur de précision',
             49 => 'Aide de camp',
             50 => 'Aspirant',
             51 => 'Commandement',
