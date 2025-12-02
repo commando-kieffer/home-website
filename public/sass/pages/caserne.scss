@@ -123,6 +123,10 @@ main.main-caserne {
         border: 1px solid #cfd8dc;
         border-left: 6px solid var(--unit-color, #607d8b);
         position: relative;
+
+        @media (max-width: 576px) {
+            margin-bottom: 0;
+        }   
     }
 
     /* Étiquette "COMMANDEMENT" */
