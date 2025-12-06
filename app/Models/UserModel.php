@@ -140,9 +140,19 @@ class UserModel extends Model
         
 
         $builder = $this->db->table('xf_user');
-        $builder->select('user_id, username, user_group_id, secondary_group_ids');
-        $builder->where('(user_group_id >= 5 AND user_group_id <= 20) OR user_group_id IN (50, 54)');
-        $builder->orderBy('user_group_id', 'DESC');
+        $builder->select('xf_user.user_id, xf_user.username, xf_user.user_group_id, xf_user.secondary_group_ids');
+        $builder->select('infos_recrutement.platform_username, infos_recrutement.platform');
+        $condition = 'infos_recrutement.user_id = xf_user.user_id 
+                    AND infos_recrutement.id = (
+                        SELECT MAX(id) 
+                        FROM infos_recrutement ir2 
+                        WHERE ir2.user_id = xf_user.user_id
+                    )';
+
+        // AJOUT DE 'false' EN 4ème PARAMÈTRE ICI vvv
+        $builder->join('infos_recrutement', $condition, 'left', false);
+        $builder->where('(xf_user.user_group_id >= 5 AND xf_user.user_group_id <= 20) OR xf_user.user_group_id IN (50, 54)');
+        $builder->orderBy('xf_user.user_group_id', 'DESC');
 
         $users = $builder->get()->getResultArray();
 

@@ -126,6 +126,16 @@ function generateMatricule($rank, $name, $troopName, $spec) {
 
     return ucfirst($rTag) . '.' . ucfirst(mb_strtolower($name)) . '.' . $tTag . ucfirst($sTag);
 }
+
+// function to label user plateform based on database field content
+function getPlatforms($platformField) {
+    $platforms = [];
+    if (stripos($platformField, 'PC') !== false) $platforms[] = 'PC';
+    if (stripos($platformField, 'XBOX') !== false) $platforms[] = 'XBOX';
+    if (stripos($platformField, 'PLAYSTATION') !== false || stripos($platformField, 'PS') !== false || stripos($platformField, 'Play') !== false) $platforms[] = 'PLAYSTATION';
+    return implode(', ', $platforms);
+}
+
 ?>
 
 <main class="main-caserne">
@@ -162,9 +172,9 @@ function generateMatricule($rank, $name, $troopName, $spec) {
                                 // Préparation des données pour la modale
                                 $matricule = generateMatricule($chef['user_title'], $chef['username'], $troopName, $chef['specialite']);
                                 // Données factices pour l'exemple (à remplacer par vos vraies données DB si dispos)
-                                $fullName = $chef['username'] . " Paul"; 
-                                $ign = $chef['username'] . "_BF2042";
-                                $platform = ($i % 2 == 0) ? 'PC' : 'XBOX'; // Alternance pour l'exemple
+                                $fullName = $chef['username']; 
+                                $ign = $chef['platform_username'] ?? 'Non renseigné';
+                                $platform = getPlatforms($user['platform'] ?? 'Non renseigné');
                                 $joinDate = date("d/m/Y", strtotime("-".rand(1, 500)." days")); // Date aléatoir
                             ?>
                     <div class="troop-leader">
@@ -210,9 +220,9 @@ function generateMatricule($rank, $name, $troopName, $spec) {
                                         // Préparation des données pour la modale
                                         $matricule = generateMatricule($user['user_title'], $user['username'], $troopName, $user['specialite']);
                                         // Données factices pour l'exemple (à remplacer par vos vraies données DB si dispos)
-                                        $fullName = $user['username'] . " Paul"; 
-                                        $ign = $user['username'] . "_BF2042";
-                                        $platform = ($i % 2 == 0) ? 'PC' : 'XBOX'; // Alternance pour l'exemple
+                                        $fullName = $user['username']; 
+                                        $ign = $user['platform_username'] ?? 'Non renseigné';
+                                        $platform = getPlatforms($user['platform'] ?? 'Non renseigné');
                                         $joinDate = date("d/m/Y", strtotime("-".rand(1, 500)." days")); // Date aléatoire
 
                                     ?>
@@ -256,9 +266,9 @@ function generateMatricule($rank, $name, $troopName, $spec) {
                                         // Préparation des données pour la modale
                                         $matricule = generateMatricule($user['user_title'], $user['username'], $troopName, $user['specialite']);
                                         // Données factices pour l'exemple (à remplacer par vos vraies données DB si dispos)
-                                        $fullName = $user['username'] . " Paul"; 
-                                        $ign = $user['username'] . "_BF2042";
-                                        $platform = ($i % 2 == 0) ? 'PC' : 'XBOX'; // Alternance pour l'exemple
+                                        $fullName = $user['username']; 
+                                        $ign = $user['platform_username'] ?? 'Non renseigné';
+                                        $platform = getPlatforms($user['platform'] ?? 'Non renseigné');
                                         $joinDate = date("d/m/Y", strtotime("-".rand(1, 500)." days")); // Date aléatoire
 
                                     ?>
@@ -327,7 +337,7 @@ function generateMatricule($rank, $name, $troopName, $spec) {
                 </div>
 
                 <div class="data-row">
-                    <span class="label">IGN (BF6) :</span>
+                    <span class="label">IGN :</span>
                     <span class="value" id="modalIgn">...</span>
                 </div>
             </div>
@@ -355,14 +365,33 @@ function openSoldierModal(element) {
 
     // Gestion Plateforme (Icones SVG simples)
     const platformContainer = document.getElementById('modalPlatform');
-    let iconHtml = '<span style="font-style:italic; opacity:0.7;">Fonctionnalité à venir</span>';
     
-    if(data.platform === 'PC') {
-        iconHtml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg> PC`;
-    } else if (data.platform === 'XBOX') {
-        iconHtml = `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.36 12.83l-1.07-2.57-1.04 2.57h-4.5l-1.04-2.57-1.07 2.57H5.5l3.29-7.5h6.43l3.29 7.5h-2.15z"/></svg> XBOX`;
+    if(data.platform && data.platform !== 'Non renseigné') {
+        let iconHtml = '';
+        const platforms = data.platform.split(', ');
+        let icons = [];
+        
+        platforms.forEach(platform => {
+            if(platform.includes('PC')) {
+                icons.push(`<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg> PC`);
+            }
+            if(platform.includes('XBOX')) {
+                icons.push(`<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.36 12.83l-1.07-2.57-1.04 2.57h-4.5l-1.04-2.57-1.07 2.57H5.5l3.29-7.5h6.43l3.29 7.5h-2.15z"/></svg> XBOX`);
+            }
+            if(platform.includes('PLAYSTATION')) {
+                icons.push(`<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 12.5L12 16l3.5-3.5L12 9l-3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg> PLAYSTATION`);
+            }
+        });
+        
+        if(icons.length > 0) {
+            iconHtml = icons.join(' | ');
+        }
+
+        platformContainer.innerHTML = iconHtml;
+    } else {
+        platformContainer.innerHTML = 'Non renseigné';
     }
-    platformContainer.innerHTML = iconHtml;
+    
 
     // Affichage
     document.getElementById('soldierModalOverlay').classList.add('active');
