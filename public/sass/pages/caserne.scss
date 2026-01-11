@@ -126,7 +126,7 @@ main.main-caserne {
 
         @media (max-width: 576px) {
             margin-bottom: 0;
-        }   
+        }
     }
 
     /* Étiquette "COMMANDEMENT" */
@@ -397,6 +397,10 @@ main.main-caserne {
         padding: 2rem;
         color: var(--text-main);
 
+        @media (max-width: 768px) {
+            width: 60%;
+        }
+
         /* Décoration "Top Secret" */
         &::before {
             content: "";
@@ -492,6 +496,7 @@ main.main-caserne {
 
         @media (max-width: 768px) {
             width: 100%;
+            align-items: center;
         }
 
         h2 {
@@ -549,6 +554,32 @@ main.main-caserne {
 
         @media (max-width: 768px) {
             justify-content: center;
+        }
+    }
+
+    // ajout cadet
+    .cadet-grid {
+        --unit-color: #bba898;
+        grid-column: 1 / -1;
+
+        .members-grid {
+            display: block;
+            width: 100%;
+
+            .bordee-column {
+                width: 100%;
+                max-width: 100%;
+                flex: 1;
+
+                .cadets-list {
+                    display: grid;
+                    column-gap: 10px;
+                    padding: 10px;
+
+                    grid-template-columns: repeat(auto-fill, minmax(max(145px, 19%), 1fr));
+
+                }
+            }
         }
     }
 }

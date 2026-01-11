@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    protected $table = 'xf_user'; 
+    protected $table = 'xf_user';
     protected $primaryKey = 'user_id';
     protected $allowedFields = [
         'username',
@@ -87,8 +87,8 @@ class UserModel extends Model
             41 => 'TROOP QG',
             45 => 'TROOP 2',
             46 => 'TROOP 3',
-            87 => 'TROOP 4',
-            88 => 'TROOP 5',
+            // 87 => 'TROOP 4',
+            // 88 => 'TROOP 5',
         ];
 
         $bordeeNames = [
@@ -137,11 +137,11 @@ class UserModel extends Model
             51 => 'Commandement',
             63 => 'Char de Combat',
         ];
-        
+
 
         $builder = $this->db->table('xf_user');
         $builder->select('xf_user.user_id, xf_user.username, xf_user.user_group_id, xf_user.secondary_group_ids');
-        $builder->select('infos_recrutement.platform_username, infos_recrutement.platform');
+        $builder->select('infos_recrutement.platform_username, infos_recrutement.platform, infos_recrutement.date');
         $condition = 'infos_recrutement.user_id = xf_user.user_id 
                     AND infos_recrutement.id = (
                         SELECT MAX(id) 
@@ -155,7 +155,12 @@ class UserModel extends Model
         $builder->orderBy('xf_user.user_group_id', 'DESC');
 
         $users = $builder->get()->getResultArray();
-
+        $cadets = array_filter($users, fn($user) => $user['user_group_id'] == 5);
+        foreach ($cadets as &$cadet) {
+            $cadet['user_title'] = 'Cadet';
+            $cadet['specialite'] = 'Fsl';
+        }
+        unset($cadet);
         $result = [];
 
         foreach ($users as $user) {
@@ -213,9 +218,12 @@ class UserModel extends Model
 
         $ordered = array_replace(array_fill_keys($troopNames, []), $result);
 
-        return $ordered;
+        return [
+            'barracks' => $ordered,
+            'cadets'   => $cadets
+        ];
     }
-    
+
     public function getJobsTree()
     {
         /* Array of JobTreeNode */
@@ -292,6 +300,4 @@ class UserModel extends Model
             ],
         ];
     }
-
-
 }
