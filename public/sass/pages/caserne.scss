@@ -289,10 +289,8 @@ main.main-caserne {
         font-size: clamp(14px, 2.5vw, 1rem);
         text-transform: capitalize;
         color: #1d1d1d
-            /* Force le majuscule style matricule */
     }
 
-    /* Photo avec cadre "viseur" */
     .user-profile .jacket {
         width: clamp(32px, 8vw, 52px);
         height: clamp(32px, 8vw, 52px);

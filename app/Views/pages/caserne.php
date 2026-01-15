@@ -2,80 +2,11 @@
 
 function getTroopColor($name)
 {
-    if (stripos($name, 'TROOP 1') !== false) return '#1a237e'; // Bleu Marine Profond
-    if (stripos($name, 'TROOP 8') !== false) return '#b71c1c'; // Rouge Sang
-    if (stripos($name, 'KG') !== false) return '#1b5e20'; // Vert Camo
-    if (stripos($name, 'QG') !== false) return '#f57f17'; // Ocre Jaune
-    return '#607d8b'; // Gris Bleu par défaut (Recrues/Réservistes)
-}
-
-function getSpecialtyTag($spec)
-{
-    // Par défaut : les 3 premières lettres
-    $sTag = substr($spec, 0, 3);
-
-    // Logique spécifique
-    if (stripos($spec, 'Fusilier') !== false) $sTag = 'Fsl';
-    elseif (stripos($spec, 'Assaut') !== false) $sTag = 'Ast';
-    elseif (stripos($spec, 'Soutien') !== false) $sTag = 'Stn';
-    elseif (stripos($spec, 'Sapeur') !== false) $sTag = 'Sap';
-    elseif (stripos($spec, 'Infirmier') !== false) $sTag = 'Inf';
-    elseif (stripos($spec, 'Voltigeur') !== false) $sTag = 'Vol';
-    elseif (stripos($spec, 'Tireur de précision') !== false) $sTag = 'Tp';
-    elseif (stripos($spec, "Tireur d'élite") !== false) $sTag = 'Snp';
-    elseif (stripos($spec, "Officier Marinier") !== false) $sTag = 'Cmd';
-    elseif (stripos($spec, "Officier") !== false) $sTag = 'Cmd';
-    elseif (stripos($spec, "Commandement") !== false) $sTag = 'Cmd';
-
-    return ucfirst($sTag);
-}
-
-function getSpecialtyIcon($specialty)
-{
-    $s = mb_strtolower($specialty);
-
-    // 1. INFIRMIER
-    if (strpos($s, 'infirmier') !== false) {
-        return '<path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>';
-    }
-
-    // 2. SAPEUR / INGÉNIEUR
-    if (strpos($s, 'sapeur') !== false) {
-        return '<path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"></path>';
-    }
-
-    // 3. SOUTIEN
-    if (strpos($s, 'soutien') !== false) {
-        return '<path d="M9 4c0-1.11-.89-2-2-2S5 2.89 5 4v12H3v2h6v-2H7V4zm7 0c0-1.11-.89-2-2-2s-2 .89-2 2v12h-2v2h6v-2h-2V4zm7 0c0-1.11-.89-2-2-2s-2 .89-2 2v12h-2v2h6v-2h-2V4z"></path>';
-    }
-
-    // 4. VOLTIGEUR
-    if (strpos($s, 'voltigeur') !== false) {
-        return '<path d="M22 16l-5.6-3.2 2.8-5.2L11 8.9 7 2 2 2v2l2 4-2 6 2 2 4 4 2 2 4-4 2-2 4 4 2-2z"></path>';
-    }
-
-    // 5. ASSAUT
-    if (strpos($s, 'assaut') !== false) {
-        return '<path d="M7 2v11h3v9l7-12h-4l4-8z"></path>';
-    }
-
-    // 6. TIREUR D'ÉLITE / SNIPER
-    if (strpos($s, "élite") !== false || strpos($s, "snp") !== false) {
-        return '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"></path><circle cx="12" cy="12" r="2"></circle>';
-    }
-
-    // 7. TIREUR DE PRÉCISION
-    if (strpos($s, 'précision') !== false || strpos($s, 'tp') !== false) {
-        return '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"></path>';
-    }
-
-    // 8. COMMANDEMENT / OFFICIER
-    if (strpos($s, 'officier') !== false || strpos($s, 'commandement') !== false || strpos($s, 'cmd') !== false) {
-        return '<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>';
-    }
-
-    // 9. FUSILIER (Défaut)
-    return '<path d="M12 2C9.24 2 7 4.24 7 7v10c0 1.1.9 2 2 2v1c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1c1.1 0 2-.9 2-2V7c0-2.76-2.24-5-5-5zm3 15H9v-2h6v2zm0-4H9V7c0-1.66 1.34-3 3-3s3 1.34 3 3v6z"></path>';
+    if (stripos($name, 'TROOP 1') !== false) return '#1a237e';
+    if (stripos($name, 'TROOP 8') !== false) return '#b71c1c';
+    if (stripos($name, 'KG') !== false) return '#1b5e20';
+    if (stripos($name, 'QG') !== false) return '#f57f17';
+    return '#607d8b';
 }
 
 function generateMatricule($rank, $name, $troopName, $spec)
@@ -103,8 +34,12 @@ function generateMatricule($rank, $name, $troopName, $spec)
     ];
     $rTag = $rankMap[$rank] ?? substr($rank, 0, 3);
 
+    // Format soldier name
+    $formattedName = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
+    $formattedName = str_replace(' ', '', $formattedName);
+
     // Association troop > troop tag
-    $tTag = 'UNK';
+    $tTag = '';
     if (stripos($troopName, 'QG') !== false) $tTag = 'QG';
     elseif (stripos($troopName, 'KG') !== false) $tTag = 'KG';
     elseif (stripos($troopName, 'TROOP 1') !== false) $tTag = '1';
@@ -112,10 +47,7 @@ function generateMatricule($rank, $name, $troopName, $spec)
     elseif (stripos($troopName, 'TROOP 2') !== false) $tTag = '2';
     elseif (stripos($troopName, 'TROOP 3') !== false) $tTag = '3';
 
-    // Association spécialitée > spécialité tag
-    $sTag = getSpecialtyTag($spec);
-
-    return ucfirst($rTag) . '.' . ucfirst(mb_strtolower($name)) . '.' . $tTag . ucfirst($sTag);
+    return ucfirst($rTag) . '.' . $formattedName . '.' . $tTag . $spec;
 }
 
 function getPlatforms($platformField)
@@ -129,10 +61,9 @@ function getPlatforms($platformField)
 
 function renderSoldierCard($user, $troopName, $showCadet = false)
 {
-    $matricule = "En attente d'affectation";
-    if (!$showCadet) {
-        $matricule = generateMatricule($user['user_title'], $user['username'], $troopName, $user['specialite']);
-    }
+    $speShort = $user['spe_short'] ?? 'Fsl';
+    $speIconUrl = $user['spe_icon'] ?? '';
+    $matricule = generateMatricule($user['user_title'], $user['username'], $troopName, $speShort);
     $fullName = $user['username'];
     $ign = $user['platform_username'] ?? 'Non renseigné';
     $platform = getPlatforms($user['platform'] ?? 'Non renseigné');
@@ -168,11 +99,13 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
 
         <?php if (!$showCadet): ?>
             <div class="user-specialty"><?= esc(ucfirst(mb_strtolower($user['specialite']))); ?></div>
-            <div class="user-specialty mobile"><?= esc(getSpecialtyTag($user['specialite'])); ?></div>
+            <div class="user-specialty mobile"><?= esc($speShort); ?></div>
 
-            <svg class="specialty-icon" viewBox="0 0 24 24">
-                <?= getSpecialtyIcon($user['specialite']); ?>
-            </svg>
+            <?php if (!empty($speIconUrl)): ?>
+                <img class="specialty-icon" src="<?= esc($speIconUrl); ?>" alt="Icone représentant la spécialité <?= esc($user['specialite']) ?>">
+            <?php else: ?>
+                <div class="specialty-icon" style="opacity:0.2"></div>
+            <?php endif; ?>
         <?php endif; ?>
 
     </div>
@@ -190,7 +123,6 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
 
             <?php foreach ($barracks_data as $troopName => $bordees) : ?>
                 <?php
-                // Extraction du chef (logique identique à ton code)
                 $chef = null;
                 foreach ($bordees as $bKey => &$users) {
                     foreach ($users as $i => $u) {
@@ -314,10 +246,8 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
 
     <script>
         function openSoldierModal(element) {
-            // 1. Récupération des données via les attributs data-
             const data = element.dataset;
 
-            // 2. Remplissage des champs simples
             document.getElementById('modalJacket').src = data.image;
             document.getElementById('modalRank').textContent = data.rank;
             document.getElementById('modalName').textContent = data.name;
@@ -325,34 +255,38 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
             document.getElementById('modalIgn').textContent = data.ign;
             document.getElementById('modalDate').textContent = data.date;
 
-            // 3. Gestion Plateforme (Icones SVG)
             const platformContainer = document.getElementById('modalPlatform');
 
             if (data.platform && data.platform !== 'Non renseigné') {
                 let iconHtml = '';
-                // On sépare si plusieurs plateformes (ex: "PC, XBOX")
                 const platforms = data.platform.split(', ');
                 let icons = [];
 
                 platforms.forEach(platform => {
-                    // On nettoie la chaîne pour éviter les espaces parasites
                     let p = platform.trim().toUpperCase();
 
                     if (p.includes('PC')) {
                         icons.push(`<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right:5px"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg> PC`);
                     }
                     if (p.includes('XBOX')) {
-                        icons.push(`<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right:5px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.36 12.83l-1.07-2.57-1.04 2.57h-4.5l-1.04-2.57-1.07 2.57H5.5l3.29-7.5h6.43l3.29 7.5h-2.15z"/></svg> XBOX`);
+                        icons.push(
+                            `<svg fill="#000000" width="24px" height="24px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16 5.425c-1.888-1.125-4.106-1.922-6.473-2.249l-0.092-0.010c-0.070-0.005-0.152-0.008-0.234-0.008-0.613 0-1.188 0.16-1.687 0.441l0.017-0.009c2.357-1.634 5.277-2.61 8.426-2.61 0.008 0 0.016 0 0.024 0h0.019c0.005 0 0.011 0 0.018 0 3.157 0 6.086 0.976 8.501 2.642l-0.050-0.033c-0.478-0.272-1.051-0.433-1.662-0.433-0.085 0-0.169 0.003-0.252 0.009l0.011-0.001c-2.459 0.336-4.677 1.13-6.648 2.297l0.082-0.045zM5.554 5.268c-0.041 0.014-0.077 0.032-0.11 0.054l0.002-0.001c-2.758 2.723-4.466 6.504-4.466 10.684 0 3.584 1.256 6.875 3.353 9.457l-0.022-0.028c-1.754-3.261 4.48-12.455 7.61-16.159-3.53-3.521-5.277-4.062-6.015-4.062-0.010-0-0.021-0.001-0.032-0.001-0.115 0-0.225 0.021-0.326 0.060l0.006-0.002zM20.083 9.275c3.129 3.706 9.367 12.908 7.605 16.161 2.075-2.554 3.332-5.845 3.332-9.43 0-4.181-1.709-7.962-4.467-10.684l-0.002-0.002c-0.029-0.021-0.063-0.039-0.1-0.052l-0.003-0.001c-0.1-0.036-0.216-0.056-0.336-0.056-0.005 0-0.011 0-0.016 0h0.001c-0.741-0-2.485 0.543-6.014 4.063zM6.114 27.306c2.627 2.306 6.093 3.714 9.888 3.714s7.261-1.407 9.905-3.728l-0.017 0.015c2.349-2.393-5.402-10.901-9.89-14.29-4.483 3.39-12.24 11.897-9.886 14.29z"/>
+                            </svg> XBOX`
+                        );
                     }
                     if (p.includes('PLAYSTATION') || p.includes('PS')) {
-                        icons.push(`<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right:5px"><path d="M8.5 12.5L12 16l3.5-3.5L12 9l-3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg> PLAYSTATION`);
+                        icons.push(
+                            `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" width="24px" height="24px">
+                            <path d="M0.69116 21.9548C-0.506476 22.7935 -0.284724 24.2384 2.44769 25.1419C5.18011 26.0455 8.35603 26.2323 11.1505 25.729C11.0707 25.729 11.3102 25.729 11.1505 25.729V22.8774L8.43588 23.8C7.39792 24.1355 6.35997 24.2194 5.32202 23.9677C4.5236 23.7161 4.68328 23.2129 5.64139 22.7935L11.1505 20.7806V17.6774L3.48565 20.4452C2.52754 20.7806 1.56943 21.2839 0.69116 21.9548ZM19.2146 9.37419V17.5097C22.4881 19.1871 25.0431 17.5097 25.0431 13.1484C25.0431 8.70323 23.5261 6.69032 19.1348 5.09677C16.8193 4.25806 14.4241 3.50323 12.0288 3V27.2387L17.6178 29V8.61935C17.6178 7.69677 17.6178 7.02581 18.2565 7.27742C19.1348 7.52903 19.2146 8.45161 19.2146 9.37419ZM29.5941 20.0258C27.2787 19.1871 24.8036 18.8516 22.4083 19.1032C21.0779 19.1906 19.8294 19.5869 18.5759 20.0258V23.2968L23.7656 21.2839C24.8036 20.9484 25.8415 20.8645 26.8795 21.1161C27.6779 21.3677 27.5182 21.871 26.5601 22.2903L18.5759 25.3935V28.5806L29.5941 24.3032C30.3925 23.9677 31.1111 23.5484 31.7499 22.8774C32.3088 22.0387 32.0692 20.8645 29.5941 20.0258Z" fill="#000000"/>
+                        </svg> PLAYSTATION`
+                        );
                     }
                 });
 
                 if (icons.length > 0) {
                     iconHtml = icons.join(' <span style="margin:0 10px; opacity:0.5">|</span> ');
                 } else {
-                    // Si on reconnait pas la plateforme, on affiche le texte brut
                     iconHtml = data.platform;
                 }
 
@@ -361,12 +295,10 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
                 platformContainer.innerHTML = 'Non renseigné';
             }
 
-            // 4. Affichage de la modale
             document.getElementById('soldierModalOverlay').classList.add('active');
         }
 
         function closeSoldierModal(event) {
-            // Ferme si on clique sur le bouton X ou sur le fond gris (overlay)
             if (event.target.classList.contains('modal-overlay') || event.target.classList.contains('close-btn')) {
                 document.getElementById('soldierModalOverlay').classList.remove('active');
             }
