@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    protected $table = 'xf_user'; 
+    protected $table = 'xf_user';
     protected $primaryKey = 'user_id';
     protected $allowedFields = [
         'username',
@@ -87,6 +87,8 @@ class UserModel extends Model
             41 => 'TROOP QG',
             45 => 'TROOP 2',
             46 => 'TROOP 3',
+            // 87 => 'TROOP 4', // temp off
+            // 88 => 'TROOP 5', // temp off
         ];
 
         $bordeeNames = [
@@ -116,38 +118,44 @@ class UserModel extends Model
             54 => 'Réserviste',
         ];
 
-        // Mapping des fonctions / spécialités (via secondary_group_id)
-        $specialties = [
-            24 => 'Lanceur anti-véhicule',
-            25 => 'Sapeur',
-            26 => 'Assaut',
-            27 => 'Tireur d\'élite',
-            28 => 'Voltigeur',
-            29 => 'Soutien',
-            30 => 'Fusilier',
-            31 => 'Infirmier',
-            32 => 'Médecin',
-            33 => 'Pilote',
-            48 => 'Transmission',
-            49 => 'Aide de camp',
-            50 => 'Aspirant',
-            51 => 'Commandement',
-            63 => 'Char de Combat',
-        ];
-        
-
         $builder = $this->db->table('xf_user');
-        $builder->select('user_id, username, user_group_id, secondary_group_ids');
-        $builder->where('(user_group_id >= 5 AND user_group_id <= 20) OR user_group_id IN (50, 54)');
-        $builder->orderBy('user_group_id', 'DESC');
+        $builder->select('
+            xf_user.user_id,
+            xf_user.username,
+            xf_user.user_group_id,
+            xf_user.secondary_group_ids,
+            ANY_VALUE(infos_recrutement.platform_username) as platform_username,
+            ANY_VALUE(infos_recrutement.platform) as platform,
+            ANY_VALUE(infos_recrutement.date) as date,
+            SUBSTRING_INDEX(GROUP_CONCAT(panel_spe.name ORDER BY panel_spe.id DESC), ",", 1) as spe_name,
+            SUBSTRING_INDEX(GROUP_CONCAT(panel_spe.short_name ORDER BY panel_spe.id DESC), ",", 1) as spe_short,
+            SUBSTRING_INDEX(GROUP_CONCAT(COALESCE(panel_spe.icon_url, "") ORDER BY panel_spe.id DESC SEPARATOR ","), ",", 1) as spe_icon
+        ');
+        $conditionRct = 'infos_recrutement.user_id = xf_user.user_id 
+                    AND infos_recrutement.id = (
+                        SELECT MAX(id) 
+                        FROM infos_recrutement ir2 
+                        WHERE ir2.user_id = xf_user.user_id
+                    )';
+        $builder->join('infos_recrutement', $conditionRct, 'left', false);
+
+        $conditionSpe = 'FIND_IN_SET(panel_spe.xf_group_id, xf_user.secondary_group_ids) > 0';
+        $builder->join('panel_spe', $conditionSpe, 'left', false);
+
+        $builder->where('(xf_user.user_group_id >= 5 AND xf_user.user_group_id <= 20) OR xf_user.user_group_id IN (50, 54)');
+        $builder->groupBy('xf_user.user_id');
+        $builder->orderBy('xf_user.user_group_id', 'DESC');
 
         $users = $builder->get()->getResultArray();
-
+        $cadets = [];
         $result = [];
 
         foreach ($users as $user) {
-            $secondaryIds = array_map('intval', explode(',', $user['secondary_group_ids'] ?? ''));
 
+            $specName = $user['spe_name'] ?? 'Fusilier';
+            $specShort = $user['spe_short'] ?? 'Fsl';
+
+            $secondaryIds = array_map('intval', explode(',', $user['secondary_group_ids'] ?? ''));
             // Détection de la Troop
             $troopId = null;
             foreach ($secondaryIds as $id) {
@@ -157,9 +165,18 @@ class UserModel extends Model
                 }
             }
 
-            if (!$troopId) continue; // skip si pas de troop
+            $troopName = $troopId ? $troopNames[$troopId] : '';
 
-            $troopName = $troopNames[$troopId];
+            // Détection des cadets (avant le skip)
+            if ($user['user_group_id'] == 5) {
+                $cadetData = $user;
+                $cadetData['user_title'] = 'Cadet';
+                $cadetData['specialite'] = $specShort;
+                $cadetData['troop_name'] = $troopName;
+                $cadets[] = $cadetData;
+            }
+
+            if (!$troopId) continue; // skip si pas de troop
 
             // Détection de la Bordée
             $bordeeName = 'Commandement';
@@ -174,13 +191,7 @@ class UserModel extends Model
             $user['user_title'] = $userGroupTitles[$user['user_group_id']] ?? 'Inconnu';
 
             // Détection de spécialité
-            $user['specialite'] = '—';
-            foreach ($secondaryIds as $id) {
-                if (isset($specialties[$id])) {
-                    $user['specialite'] = $specialties[$id];
-                    break;
-                }
-            }
+            $user['specialite'] = $specName;
 
             // Détection du chef
             $user['is_chef'] = in_array(86, $secondaryIds);
@@ -200,9 +211,12 @@ class UserModel extends Model
 
         $ordered = array_replace(array_fill_keys($troopNames, []), $result);
 
-        return $ordered;
+        return [
+            'barracks' => $ordered,
+            'cadets'   => $cadets
+        ];
     }
-    
+
     public function getJobsTree()
     {
         /* Array of JobTreeNode */
@@ -279,6 +293,4 @@ class UserModel extends Model
             ],
         ];
     }
-
-
 }

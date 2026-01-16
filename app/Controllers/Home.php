@@ -56,7 +56,9 @@ class Home extends BaseController
     {
         $userModel = new UserModel();
 
-        $data['barracks_data'] = $userModel->getBarracksFromActiveUsers();
+        $raw_data = $userModel->getBarracksFromActiveUsers();
+        $data['barracks_data'] = $raw_data['barracks'];
+        $data['cadets']        = $raw_data['cadets'];
 
         return view('generic/head') 
              . view('generic/header')
