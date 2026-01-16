@@ -1,6 +1,6 @@
 <?php $i = 0; ?>
-<main>
-    <div class="container--main bg--gw">
+<main class="bg--gw">
+    <div class="container--main">
         <h1>Tableau récapitulatif</h1>
         <blockquote>
             Médaille de bronze (400pts) <br>

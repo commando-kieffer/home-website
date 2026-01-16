@@ -1,5 +1,5 @@
-<main>
-    <div class="container--main bg--gw">
+<main class="bg--gw">
+    <div class="container--main">
         <h1>Liste des décorations</h1>
 
         <section class="content--center">
