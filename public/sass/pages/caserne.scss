@@ -323,14 +323,22 @@ main.main-caserne {
     }
 
     .specialty-icon {
+        /* POSITIONNEMENT */
         position: absolute;
         right: 10px;
         top: 50%;
         transform: translateY(-50%);
-        width: 18px;
-        height: 18px;
-        fill: #78909c;
-        opacity: 0.8;
+        display: block;
+        width: 22px;
+        height: 22px;
+        background-color: currentColor;
+        -webkit-mask-size: 18px 18px;
+        mask-size: 18px 18px;
+        mask-origin: content-box;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: 50% 50%;
+        mask-position: 50% 50%;
     }
 
     /* Icône colorée si c'est un chef */

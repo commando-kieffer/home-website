@@ -61,9 +61,9 @@ function getPlatforms($platformField)
 
 function renderSoldierCard($user, $troopName, $showCadet = false)
 {
-    $speShort = $user['spe_short'] ?? 'Fsl';
+    $speShort = $user['spe_short'];
     $speIconUrl = $user['spe_icon'] ?? '';
-    $matricule = generateMatricule($user['user_title'], $user['username'], $troopName, $speShort);
+    $matricule = generateMatricule($user['user_title'], $user['username'], $user['troop_name'], $speShort);
     $fullName = $user['username'];
     $ign = $user['platform_username'] ?? 'Non renseigné';
     $platform = getPlatforms($user['platform'] ?? 'Non renseigné');
@@ -71,7 +71,6 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
     if (!empty($user['date'])) {
         $joinDate = (new DateTime($user['date']))->format('d/m/Y');
     }
-
     ob_start();
 ?>
     <div class="user-profile"
@@ -102,7 +101,14 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
             <div class="user-specialty mobile"><?= esc($speShort); ?></div>
 
             <?php if (!empty($speIconUrl)): ?>
-                <img class="specialty-icon" src="<?= esc($speIconUrl); ?>" alt="Icone représentant la spécialité <?= esc($user['specialite']) ?>">
+                <div class="specialty-icon"
+                    style="
+                        background-color: var(--unit-color, #607d8b);
+                        -webkit-mask-image: url('<?= esc($speIconUrl); ?>');
+                        mask-image: url('<?= esc($speIconUrl); ?>');
+                     "
+                    title="Icone de la spécialité <?= esc($user['specialite']); ?>">
+                </div>
             <?php else: ?>
                 <div class="specialty-icon" style="opacity:0.2"></div>
             <?php endif; ?>

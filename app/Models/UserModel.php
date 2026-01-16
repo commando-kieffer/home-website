@@ -152,8 +152,8 @@ class UserModel extends Model
 
         foreach ($users as $user) {
 
-            $specName = $user['spe_name']; 
-            $specShort = $user['spe_short'];
+            $specName = $user['spe_name'] ?? 'Fusilier';
+            $specShort = $user['spe_short'] ?? 'Fsl';
 
             $secondaryIds = array_map('intval', explode(',', $user['secondary_group_ids'] ?? ''));
             // Détection de la Troop
@@ -165,17 +165,18 @@ class UserModel extends Model
                 }
             }
 
-            // Détection des cadets
+            $troopName = $troopId ? $troopNames[$troopId] : '';
+
+            // Détection des cadets (avant le skip)
             if ($user['user_group_id'] == 5) {
                 $cadetData = $user;
                 $cadetData['user_title'] = 'Cadet';
-                $cadetData['specialite'] = $specShort ?? 'Fsl';
+                $cadetData['specialite'] = $specShort;
+                $cadetData['troop_name'] = $troopName;
                 $cadets[] = $cadetData;
             }
 
             if (!$troopId) continue; // skip si pas de troop
-
-            $troopName = $troopNames[$troopId];
 
             // Détection de la Bordée
             $bordeeName = 'Commandement';
@@ -190,7 +191,7 @@ class UserModel extends Model
             $user['user_title'] = $userGroupTitles[$user['user_group_id']] ?? 'Inconnu';
 
             // Détection de spécialité
-            $user['specialite'] = $specName ?? 'Fusilier';
+            $user['specialite'] = $specName;
 
             // Détection du chef
             $user['is_chef'] = in_array(86, $secondaryIds);
