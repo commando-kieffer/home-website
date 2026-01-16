@@ -261,6 +261,12 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
             document.getElementById('modalIgn').textContent = data.ign;
             document.getElementById('modalDate').textContent = data.date;
 
+            if (data.date === 'Date inconnue') {
+              document.getElementById('modalDate').classList.add('redacted-text')
+            } else {
+              document.getElementById('modalDate').classList.remove('redacted-text')
+            }
+
             const platformContainer = document.getElementById('modalPlatform');
 
             if (data.platform && data.platform !== 'Non renseigné') {
@@ -298,7 +304,7 @@ function renderSoldierCard($user, $troopName, $showCadet = false)
 
                 platformContainer.innerHTML = iconHtml;
             } else {
-                platformContainer.innerHTML = 'Non renseigné';
+                platformContainer.innerHTML = '<span class="redacted-text">Non renseigné</span>';
             }
 
             document.getElementById('soldierModalOverlay').classList.add('active');
