@@ -73,9 +73,11 @@ class Home extends BaseController
 
         $data['jobs_tree'] = $userModel->getJobsTree();
 
-        return view('generic/head') 
+        return view('generic/head')
              . view('generic/header')
-             . view('pages/metiers', $data);
+             . view('pages/metiers', $data)
+             . view('generic/footer')
+             . view('generic/foot');
     }
 
     public function galerie($category = null, int $pic_id = -1): string

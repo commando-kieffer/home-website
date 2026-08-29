@@ -1,113 +1,179 @@
-<script type="text/javascript" src="https://code.jscharting.com/latest/jscharting.js"></script>
-<script type="text/javascript" src="https://code.jscharting.com/latest/modules/types.js"></script>
-<style>
-    .tooltip-container {
-        background-color: #0E341CBB;
-        color: white;
-        border-radius: 4px;
-        padding: 0.5rem;
+<?php
+/**
+ * Page « Métiers » — organigramme des pôles du Commando.
+ *
+ * $jobs_tree = [
+ *   'primary'   => [ JobTreeNode{ label, officer, members } ],  // Commandement
+ *   'secondary' => [ JobTreeNode, ... ],                        // pôles
+ *   'tertiary'  => [ JobTreeNode, ... ],                        // pôles
+ * ]
+ * Chaque membre est un UserDTO : { username, primary_group, ... }.
+ */
+
+$rankOf = static function ($user): ?string {
+    if ($user === null || $user === false) {
+        return null;
     }
-
-    .tooltip-content {
-        font-size: 2.25rem;
-        width: 400px;
+    if (!isset($user->primary_group)) {
+        return null;
     }
+    $rank = trim((string) $user->primary_group);
 
-    .tooltip-content small {
-        font-size: 1rem;
-    }
-</style>
-<div id="ck_organigramme" style="width: 100%; height: 100%; margin: 0rem auto;"></div>
-<script>
-    let php_var;
-    if (php_var = <?php echo json_encode($jobs_tree); ?>) {
-        const unformattedData = php_var
-        delete php_var
-        console.log(unformattedData)
+    return $rank !== '' ? $rank : null;
+};
 
-        const CHIEF_ID = "Commandant"
-        const ROLE_OFFICER_CONFIG = (label, officer, members) => ({
-            id: label,
-            name: officer ? officer.username : 'Poste de chef à pourvoir',
-            label_text: `<span style="font-size:36px; text-transform: uppercase; ">%role</span><br><img width=64 height=64 margin_bottom=4 src=%image><br><span style="font-size:32px;">%name</span><br><span style="font-size:16px;">${officer ? officer.primary_group : 'Lancez vous !'}</span>`,
-            annotation: {margin: 100, width: 450},
-            tooltip: `<div class="tooltip-container">
-                        ${members.map(({username, primary_group}) =>
-                            `<p class="tooltip-content">${username} <small>(${primary_group})</small></p>`).join('') || '<p class="tooltip-content">Postes à pourvoir</p>'}
-                    </div>`,
-            attributes: {
-                role: label,
-                image: officer ?
-                    `pictures/jackets/${officer.primary_group}.png` :
-                    'pictures/logo_ck_website.png'
-            },
-        })
+$initialOf = static function ($user): string {
+    $name = isset($user->username) ? trim((string) $user->username) : '';
 
-        const chief = unformattedData.primary[0].members[0]
+    return $name !== '' ? mb_strtoupper(mb_substr($name, 0, 1)) : '?';
+};
 
-        const data2 = unformattedData
-            .secondary
-            .map(({label, officer, members}) => [
-                {
-                    ...ROLE_OFFICER_CONFIG(label, officer, members),
-                    //parent: members.map(({id}) => `${label}_${id}`).toString(),
-                }
-            ])
-            .flat()
+/* Abréviations de grade (mêmes que la caserne). Repli sur le nom complet si absent. */
+$shortRankOf = static function (?string $rank): ?string {
+    static $map = [
+        'Capitaine de corvette'                    => 'CptC',
+        'Lieutenant de vaisseau'                    => 'Lv',
+        'Enseigne de vaisseau de première classe'   => 'Ev1',
+        'Enseigne de vaisseau de seconde classe'    => 'Ev2',
+        'Aspirant'                                  => 'Asp',
+        'Réserviste'                                => 'Rés',
+        'Major'                                     => 'Maj',
+        'Maître principal'                          => 'Mp',
+        'Premier maître'                            => 'Pm',
+        'Maître'                                    => 'M',
+        'Second maître de première classe'          => 'Sm1',
+        'Second maître de seconde classe'           => 'Sm2',
+        'Second maître maistrancier'                => 'Smm',
+        'Quartier-maître de première classe'        => 'Qm1',
+        'Quartier-maître de seconde classe'         => 'Qm2',
+        'Matelot breveté'                           => 'Mtb',
+        'Matelot'                                   => 'Mtl',
+        'Cadet'                                     => 'Cadet',
+    ];
 
-        const data3 = unformattedData
-            .tertiary
-            .map(({label, officer, members}) => [
-                {
-                    ...ROLE_OFFICER_CONFIG(label, officer, members),
-                    parent: CHIEF_ID,
-                }
-            ])
-            .flat()
+    return $rank === null ? null : ($map[$rank] ?? $rank);
+};
 
+$primary   = $jobs_tree['primary'][0] ?? null;
+$commandant = ($primary && !empty($primary->members)) ? $primary->members[0] : null;
+$staff      = ($primary && count($primary->members) > 1) ? array_slice($primary->members, 1) : [];
 
-        const chart = JSC.Chart("ck_organigramme", {
-            debug: true,
-            type: 'organizational',
-            defaultTooltip: {
-                asHTML: true,
-                outline: 'none',
-                zIndex: 10
-            }, 
-            defaultAnnotation: { margin: 10, width: 150 },
-            defaultSeries: {
-                color: '#0E341C',
-                defaultPoint: {
-                    outline_width: 0,
-                    connectorLine: {
-                        radius: 5,
-                        width: 2,
-                        color: '#BDBDBD'
-                    },
-                    label_text:
-                        '<img width=64 height=64 margin_bottom=4 src=%image><br><span style="font-size:16px">%name</span>'
-                }
-            },
-            series: [
-                {
-                    points: [
-                        ...data2,
-                        ...data3,
-                        {
-                            name: chief.username,
-                            id: CHIEF_ID,
-                            label_text:
-                                '<span style="font-size:64px;">%role</span><br><span style="font-size:48px;">%name</span>',
-                            annotation: {width: 600},
-                            parent: unformattedData.secondary.map(({label}) => label).toString(),
-                            attributes: {
-                                role: 'Commandant',
-                                image: `pictures/jackets/${chief.primary_group}.png`
-                            } 
-                        }
-                    ]
-                }
-            ]
-        })
-    }
-</script>
+$poles = array_merge($jobs_tree['secondary'] ?? [], $jobs_tree['tertiary'] ?? []);
+?>
+<main class="metiers">
+    <div class="metiers__wrap">
+        <header class="metiers__head">
+            <h1>Métiers</h1>
+            <p class="metiers__intro">
+                Le Commando s'organise en métiers, chacun rattaché au Commandant et animé par un chef de métier.
+            </p>
+        </header>
+
+        <section class="metiers__command" aria-label="Commandement">
+            <?php if ($commandant) : ?>
+                <article class="command-card">
+                    <span class="command-card__label">Commandant</span>
+                    <div class="command-card__id">
+                        <span class="avatar avatar--lg" data-initial="<?= esc($initialOf($commandant)) ?>">
+                            <?php if ($rankOf($commandant)) : ?>
+                                <img src="/pictures/jackets/<?= esc($rankOf($commandant)) ?>.png" alt=""
+                                    loading="lazy" onerror="this.remove()">
+                            <?php endif; ?>
+                        </span>
+                        <span class="command-card__name"><?= esc($commandant->username) ?></span>
+                        <?php if ($rankOf($commandant)) : ?>
+                            <span class="command-card__rank"><?= esc($rankOf($commandant)) ?></span>
+                        <?php endif; ?>
+                    </div>
+
+                    <?php if ($staff) : ?>
+                        <div class="command-card__staff">
+                            <span class="command-card__staff-label">État-major</span>
+                            <ul>
+                                <?php foreach ($staff as $member) : ?>
+                                    <li>
+                                        <?php if ($rankOf($member)) : ?>
+                                            <span><?= esc($shortRankOf($rankOf($member))) ?></span>
+                                        <?php endif; ?>
+                                        <?= esc($member->username) ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+                </article>
+            <?php else : ?>
+                <article class="command-card command-card--vacant">
+                    <span class="command-card__label">Commandant</span>
+                    <span class="command-card__name">Poste à pourvoir</span>
+                </article>
+            <?php endif; ?>
+        </section>
+
+        <?php if (!empty($poles)) : ?>
+            <div class="metiers__divider"><span>Les métiers</span></div>
+
+            <ul class="poles">
+                <?php foreach ($poles as $pole) :
+                    $chef    = $pole->officer ?: null;
+                    $chefId  = $chef && isset($chef->user_id) ? $chef->user_id : null;
+                    $members = array_values(array_filter(
+                        $pole->members ?? [],
+                        static fn ($m) => $chefId === null || !isset($m->user_id) || $m->user_id !== $chefId
+                    ));
+                    $count = count($members);
+                    // Le chef de métier compte comme un membre du métier.
+                    $headcount = $count + ($chef ? 1 : 0);
+                ?>
+                    <li class="pole">
+                        <div class="pole__head">
+                            <h2 class="pole__name"><?= esc($pole->label) ?></h2>
+                            <span class="pole__count"><?= $headcount ?> membre<?= $headcount > 1 ? 's' : '' ?></span>
+                        </div>
+
+                        <?php if ($chef) : ?>
+                            <div class="pole__chef">
+                                <span class="avatar" data-initial="<?= esc($initialOf($chef)) ?>">
+                                    <?php if ($rankOf($chef)) : ?>
+                                        <img src="/pictures/jackets/<?= esc($rankOf($chef)) ?>.png" alt=""
+                                            loading="lazy" onerror="this.remove()">
+                                    <?php endif; ?>
+                                </span>
+                                <span class="pole__chef-info">
+                                    <span class="pole__chef-role">Chef de métier</span>
+                                    <span class="pole__chef-name"><?= esc($chef->username) ?></span>
+                                    <?php if ($rankOf($chef)) : ?>
+                                        <span class="pole__chef-rank"><?= esc($rankOf($chef)) ?></span>
+                                    <?php endif; ?>
+                                </span>
+                            </div>
+                        <?php else : ?>
+                            <div class="pole__chef pole__chef--vacant">
+                                <span class="pole__chef-info">
+                                    <span class="pole__chef-role">Chef de métier</span>
+                                    <span class="pole__chef-name">Poste à pourvoir</span>
+                                    <span class="pole__chef-rank">Lancez-vous&nbsp;!</span>
+                                </span>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($count > 0) : ?>
+                            <ul class="pole__members">
+                                <?php foreach ($members as $member) : ?>
+                                    <li class="pole__member">
+                                        <span class="pole__member-name"><?= esc($member->username) ?></span>
+                                        <?php if ($rankOf($member)) : ?>
+                                            <span class="pole__member-rank"><?= esc($rankOf($member)) ?></span>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else : ?>
+                            <p class="pole__empty">Aucun membre pour le moment.</p>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+</main>
