@@ -6,6 +6,12 @@
             par Lardennois (2005)
         </blockquote>
 
+        <blockquote>
+          <h3 style="margin-bottom: 0.5em">Important</h3>
+          Le texte ci-dessous contient plusieurs erreurs, notamment sur la vie de Philippe Kieffer.<br>
+          Une correction sera proposée sous peu.
+        </blockquote>
+
         <p>Le Capitaine de corvette Philippe Kieffer est né à Haïti le 24 octobre 1899. Diplômé de l’école H.E.C, il est directeur de banque aux U.S.A lorsque la guerre menace nos frontières. Malgré son âge, il s’engage comme volontaire dans la Marine le 10 septembre 1939.</p>
         <p>Le Lieutenant de Vaisseau Kieffer est Officier de Réserve Interprète et du Chiffre. Après la défaite de Dunkerque, il rejoint le Royaume-Uni le 19 juin 1940 et répondant à l’appel du Général de Gaulle. Il s’engage des les Forces Navales Françaises Libres le 1er juillet 1940. Son numéro matricule est le 13 FNFL 40.</p>
         <p>Affecté au chiffre, le Lieutenant de Vaisseau Kieffer trouve la vie monotone à bord du cuirassé Amiral Courbet, bâtiment ancré au fond de la rade de Portsmouth servant de base anti-aérienne et hors d’usage pour le service en mer. Le Commandant veut affronter l’ennemi sur les champs de bataille.</p>
