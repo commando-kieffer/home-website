@@ -3,7 +3,7 @@
         <div class="left--header">
             <nav>
                 <ul>
-                    <li><a href="/"><img src="/pictures/logo_ck_vert.png" alt="Logo du CK"></a></li>
+                    <li><a href="/"><img src="/pictures/commando-kieffer-2004-insigne.png" alt="Logo du CK"></a></li>
                     <li><a href="https://forum.commandokieffer.com/index.php">Forum</a></li>
                     <li><a href="/caserne">Caserne</a></li>
                     <li><a href="/decorations">Décorations</a></li>
@@ -21,7 +21,7 @@
                     <span></span>
                     <span></span>
                 </button>
-                <a href="/"><img src="/pictures/logo_ck_vert.png" alt="Logo du CK"></a>
+                <a href="/"><img src="/pictures/commando-kieffer-2004-insigne.png" alt="Logo du CK"></a>
             </div>
         </div>
         <div class="right--header" style="display: flex">
