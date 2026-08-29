@@ -84,6 +84,7 @@ class Home extends BaseController
         $data = [
             'categories' => [],
             'pictures' => [],
+            'category' => null,
             'in_album' => false,
             'pic_id' => $pic_id
         ];
@@ -92,6 +93,7 @@ class Home extends BaseController
             $data['categories'] = $galleryModel->getCategories();
         } else {
             $data['pictures'] = $galleryModel->getPicturesOfCategory($category);
+            $data['category'] = $galleryModel->getCategory($category);
             $data['in_album'] = true;
         }
 
