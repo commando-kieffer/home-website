@@ -11,8 +11,8 @@
                     <li><a href="/metiers">Métiers</a></li>
                     <li><a href="/histoire">Histoire</a></li>
                     <li><a href="/galerie">Galerie</a></li>
+                    <li><a href="/mods">Mods</a></li>
                     <li><a href="https://archive.commandokieffer.com">Archives</a></li>
-                    <li><a href="https://zeus.commandokieffer.com">Panel</a></li>
                 </ul>
             </nav>
             <div class="mobile">
@@ -41,8 +41,8 @@
                 <li><a href="/metiers">Métiers</a></li>
                 <li><a href="/histoire">Histoire</a></li>
                 <li><a href="/galerie">Galerie</a></li>
+                <li><a href="/mods">Mods</a></li>
                 <li><a href="https://archive.commandokieffer.com">Archives</a></li>
-                <li><a href="https://zeus.commandokieffer.com">Panel</a></li>
             </ul>
         </div>
     </div>

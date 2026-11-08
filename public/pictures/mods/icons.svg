@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="display:none">
+  <symbol id="core" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="12" width="24" height="24" rx="2"/>
+    <rect x="19" y="19" width="10" height="10"/>
+    <path d="M18 12V6M24 12V6M30 12V6M18 36v6M24 36v6M30 36v6M12 18H6M12 24H6M12 30H6M36 18h6M36 24h6M36 30h6"/>
+  </symbol>
+  <symbol id="props" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 6l16 8v20L24 42 8 34V14z"/>
+    <path d="M8 14l16 8 16-8M24 22v20"/>
+  </symbol>
+  <symbol id="structures" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="8" width="24" height="34"/>
+    <path d="M18 15h4M26 15h4M18 22h4M26 22h4M18 29h4M26 29h4M21 42v-7h6v7M6 42h36"/>
+  </symbol>
+  <symbol id="animations" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="22" cy="11" r="4.5"/>
+    <path d="M22 16v13M22 29l-6 13M22 29l6 13M22 19l9-2-4-8M22 19l-7 9"/>
+  </symbol>
+  <symbol id="weapons" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19h16v7H12zM28 21h16M12 20l-7 1v7l7-1M16 19v-3h6v3M20 26l-1 9h5l1-9M14 26l-2 7h4l2-7"/>
+  </symbol>
+  <symbol id="equipment" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 30c1-9 10-15 21-15 9 0 15 4 15 10 0 6-8 9-18 9S6 36 6 30z"/>
+    <path d="M27 15v-4"/>
+    <circle cx="15" cy="29" r="2.5"/>
+  </symbol>
+  <symbol id="stress-test" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 34a18 18 0 0 1 36 0M24 34l8-10M10 34h3M35 34h3M24 16v3M6 40h36"/>
+    <circle cx="24" cy="34" r="2.5"/>
+  </symbol>
+  <symbol id="panel" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="6" y="8" width="36" height="32" rx="2"/>
+    <path d="M6 16h36M11 12h.01M15 12h.01M14 34v-6M20 34v-10M26 34v-8M32 34v-13"/>
+  </symbol>
+  <symbol id="vehicles" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 31v-8l9-2 4-7h12l5 7 8 2v8h-3M19 31h11M18 14v7h17"/>
+    <circle cx="13" cy="32" r="4.5"/>
+    <circle cx="36" cy="32" r="4.5"/>
+  </symbol>
+  <symbol id="external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+  </symbol>
+</svg>

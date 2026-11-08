@@ -1,0 +1,1198 @@
+/* ============================================================
+   Pages « Mods » — vitrine et fiches des mods Arma Reforger
+   ============================================================ */
+
+$mod-pattern: repeating-linear-gradient(45deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.04) 2px,
+    transparent 2px,
+    transparent 10px);
+
+main.mods,
+main.mod {
+    min-width: 0;
+    padding: 0;
+    background-color: $ck-paper;
+    overflow-x: clip;
+
+    /* Le style global de <section> est display: flex. */
+    section {
+        display: block;
+    }
+}
+
+/* ---- Titre de section (trait rouge) ---- */
+.mods__heading,
+.mod-section__title {
+    position: relative;
+    margin-bottom: 1.75rem;
+    padding-bottom: 0.8rem;
+    font-size: 28px;
+
+    @include bkp-max(md) {
+        font-size: 24px;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 52px;
+        height: 4px;
+        background-color: $ck-red;
+    }
+}
+
+/* ============================================================
+   Liste des mods
+   ============================================================ */
+.mods-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(14, 52, 28, 0.97) 0%, rgba(14, 52, 28, 0.88) 45%, rgba(14, 52, 28, 0.55) 100%),
+        url("/pictures/mods/hero.jpg") center / cover no-repeat,
+        $ck-green;
+    color: #ffffff;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: $mod-pattern;
+        pointer-events: none;
+    }
+
+    &__inner {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 5rem 1.5rem 4.5rem;
+
+        @include bkp-max(md) {
+            padding: 3rem 1rem 2.75rem;
+        }
+    }
+
+    &__eyebrow {
+        display: inline-block;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.6rem;
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        border-bottom: 3px solid $ck-red;
+    }
+
+    h1 {
+        margin-bottom: 1.25rem;
+        color: #ffffff;
+        line-height: 1.05;
+        text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    &__lead {
+        max-width: 60ch;
+        font-size: 17px;
+        line-height: 1.75;
+        color: rgba(255, 255, 255, 0.85);
+
+        @include bkp-max(md) {
+            font-size: 15px;
+        }
+    }
+}
+
+.mods__wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 3.5rem 1.5rem 4.5rem;
+
+    @include bkp-max(md) {
+        padding: 2.25rem 1rem 3rem;
+    }
+}
+
+.mods__tools {
+    margin-top: 4rem;
+
+    @include bkp-max(md) {
+        margin-top: 3rem;
+    }
+}
+
+/* ---- Grille et cartes ---- */
+.mod-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+    gap: 2rem;
+
+    @include bkp-max(md) {
+        gap: 1.5rem;
+    }
+
+    &--wide {
+        grid-template-columns: minmax(0, 1fr);
+
+        .mod-card__link {
+            @include bkp-min(md) {
+                flex-direction: row;
+            }
+        }
+
+        .mod-card__media {
+            @include bkp-min(md) {
+                flex: 0 0 300px;
+                aspect-ratio: auto;
+                min-height: 190px;
+            }
+        }
+
+        .mod-card__body {
+            @include bkp-min(md) {
+                justify-content: center;
+                padding: 2rem 2.25rem;
+            }
+        }
+
+        .mod-card__text {
+            @include bkp-min(md) {
+                flex: 0 1 auto;
+                max-width: 60ch;
+            }
+        }
+    }
+}
+
+.mod-card {
+    display: flex;
+    min-width: 0;
+}
+
+.mod-card__link {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid $ck-line;
+    border-top: 4px solid $ck-green;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.08);
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.12);
+    }
+
+    &:focus-visible {
+        outline: 3px solid $ck-red;
+        outline-offset: 3px;
+    }
+}
+
+.mod-card__media {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: $ck-green;
+    color: #ffffff;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: $mod-pattern;
+    }
+}
+
+.mod-card__icon {
+    width: 68px;
+    height: 68px;
+    transition: transform 0.3s ease;
+}
+
+.mod-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.mod-card__link:hover .mod-card__icon,
+.mod-card__link:focus-visible .mod-card__icon {
+    transform: scale(1.1);
+}
+
+.mod-card__link:hover .mod-card__img,
+.mod-card__link:focus-visible .mod-card__img {
+    transform: scale(1.06);
+}
+
+.mod-card__badge {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 0.35rem 0.85rem;
+    background-color: $ck-green;
+    border-left: 3px solid $ck-red;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.mod-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.mod-card__title {
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    font-size: 21px;
+}
+
+.mod-card__text {
+    flex: 1;
+    line-height: 1.65;
+    color: #40504a;
+}
+
+.mod-card__more {
+    margin-top: 1.25rem;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $ck-green;
+
+    span {
+        display: inline-block;
+        transition: transform 0.2s ease;
+    }
+}
+
+.mod-card__link:hover .mod-card__more span,
+.mod-card__link:focus-visible .mod-card__more span {
+    transform: translateX(4px);
+}
+
+/* ============================================================
+   Fiche d'un mod
+   ============================================================ */
+.mod__wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4.5rem;
+
+    @include bkp-max(md) {
+        padding: 1.5rem 1rem 3rem;
+    }
+}
+
+.mod__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $ck-text-muted;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: $ck-green;
+    }
+}
+
+/* ---- Bandeau ---- */
+.mod-head {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 2.25rem;
+    margin-top: 1.25rem;
+    padding: 2.5rem;
+    background-color: $ck-green;
+    color: #ffffff;
+    box-shadow: 6px 6px 0 rgba(14, 52, 28, 0.18);
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: $mod-pattern;
+    }
+
+    @include bkp-max(md) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+        padding: 1.75rem 1.35rem;
+    }
+
+    h1 {
+        margin-bottom: 0.75rem;
+        padding: 0;
+        color: #ffffff;
+        line-height: 1.05;
+        overflow-wrap: anywhere;
+    }
+}
+
+.mod-head__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 112px;
+    height: 112px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 3px;
+
+    svg {
+        width: 64px;
+        height: 64px;
+    }
+
+    @include bkp-max(md) {
+        width: 80px;
+        height: 80px;
+
+        svg {
+            width: 46px;
+            height: 46px;
+        }
+    }
+}
+
+.mod-head__category {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    border-bottom: 3px solid $ck-red;
+}
+
+.mod-head__tagline {
+    max-width: 62ch;
+    font-size: 17px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.85);
+
+    @include bkp-max(md) {
+        font-size: 15px;
+    }
+}
+
+.mod-head__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.mod-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    padding: 0 1.5rem;
+    background-color: #ffffff;
+    color: $ck-green;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 3px;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.28);
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.32);
+    }
+}
+
+/* ---- Chiffres clés ---- */
+.mod-stats {
+    display: grid;
+    grid-template-columns: repeat(var(--stats, 4), minmax(0, 1fr));
+    width: min(100%, calc(var(--stats, 4) * 295px));
+    margin-top: 2rem;
+    background-color: #ffffff;
+    border: 1px solid $ck-line;
+
+    @include bkp-max(md) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.mod-stats__item {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    padding: 1.1rem 1.4rem;
+    border-right: 1px solid $ck-line;
+
+    &:last-child {
+        border-right: 0;
+    }
+
+    @include bkp-max(md) {
+        padding: 0.9rem 1rem;
+        border-bottom: 1px solid $ck-line;
+
+        &:nth-child(2n) {
+            border-right: 0;
+        }
+
+        /* Un nombre impair de chiffres : le dernier prend toute la ligne. */
+        &:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+            border-right: 0;
+        }
+    }
+
+    dt {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: $ck-text-muted;
+    }
+
+    dd {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 30px;
+        line-height: 1.1;
+        color: $ck-green;
+    }
+}
+
+/* ---- Mise en page ---- */
+.mod-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 3rem;
+    margin-top: 3rem;
+
+    @include bkp-max(lg) {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+}
+
+.mod-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-self: start;
+
+    @include bkp-min(lg) {
+        position: sticky;
+        top: 1.5rem;
+    }
+}
+
+/* ---- Sections ---- */
+.mod-section {
+    margin-bottom: 3rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.mod-section__text {
+    max-width: 70ch;
+    line-height: 1.8;
+    color: $ck-ink;
+
+    & + & {
+        margin-top: 1rem;
+    }
+}
+
+.mod-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+
+    @include bkp-max(md) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* La première capture, et une dernière isolée, prennent toute la largeur. */
+    &__item:first-child,
+    &__item:last-child:nth-child(even) {
+        grid-column: 1 / -1;
+    }
+}
+
+.mod-gallery__link {
+    display: block;
+    overflow: hidden;
+    background-color: $ck-green;
+    border: 1px solid $ck-line;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.08);
+    cursor: zoom-in;
+
+    img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    &:hover img,
+    &:focus-visible img {
+        transform: scale(1.04);
+    }
+
+    &:focus-visible {
+        outline: 3px solid $ck-red;
+        outline-offset: 3px;
+    }
+}
+
+/* ---- Visionneuse ---- */
+html.lightbox-open,
+html.lightbox-open body {
+    overflow: hidden;
+}
+
+.lightbox {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    padding: 3rem 4.5rem;
+    border: 0;
+    background: rgba(7, 18, 11, 0.94);
+    color: #ffffff;
+    font-family: "Montserrat", sans-serif;
+
+    &[open] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &::backdrop {
+        background: rgba(7, 18, 11, 0.94);
+    }
+
+    @include bkp-max(md) {
+        padding: 3.5rem 0.75rem;
+    }
+}
+
+.lightbox__stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
+}
+
+.lightbox__img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    background-color: $ck-green;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+.lightbox__caption {
+    max-width: 90vw;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.lightbox__counter {
+    position: absolute;
+    top: 1.15rem;
+    left: 1.35rem;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.lightbox__btn {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 0;
+    border-radius: 3px;
+    color: #ffffff;
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+        background: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.lightbox__close {
+    top: 0.75rem;
+    right: 0.9rem;
+}
+
+.lightbox__nav {
+    top: 50%;
+    transform: translateY(-50%);
+
+    &--prev {
+        left: 0.9rem;
+    }
+
+    &--next {
+        right: 0.9rem;
+    }
+}
+
+/* ---- Fonctionnalités ---- */
+.mod-features {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+
+    @include bkp-max(md) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.mod-feature {
+    padding: 1.25rem 1.4rem;
+    background-color: #ffffff;
+    border: 1px solid $ck-line;
+    border-left: 4px solid $ck-green;
+
+    /* Un nombre impair de cartes : la dernière prend toute la ligne. */
+    &:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+
+    h3 {
+        margin-bottom: 0.4rem;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    p {
+        font-size: 14.5px;
+        line-height: 1.65;
+        color: #40504a;
+    }
+}
+
+/* ---- Contenu ---- */
+.mod-group {
+    & + & {
+        margin-top: 1.75rem;
+    }
+
+    h3 {
+        margin-bottom: 0.75rem;
+        font-weight: 700;
+        font-size: 17px;
+    }
+}
+
+.mod-group__note {
+    margin: -0.25rem 0 0.75rem;
+    font-size: 14px;
+    line-height: 1.6;
+    color: $ck-text-muted;
+}
+
+.mod-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    li {
+        padding: 0.4rem 0.8rem;
+        background-color: #ffffff;
+        border: 1px solid $ck-line;
+        border-radius: 3px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        color: $ck-ink;
+    }
+}
+
+/* ---- Mods séparés ---- */
+.mod-section__text--intro {
+    margin-bottom: 1.25rem;
+}
+
+.mod-standalone {
+    display: grid;
+    gap: 1rem;
+}
+
+.mod-standalone__item {
+    padding: 1.4rem 1.5rem;
+    background-color: #ffffff;
+    border: 1px solid $ck-line;
+    border-left: 4px solid $ck-green;
+}
+
+.mod-standalone__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-bottom: 0.4rem;
+
+    h3 {
+        font-weight: 700;
+        font-size: 19px;
+    }
+}
+
+.mod-standalone__meta {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: $ck-text-muted;
+}
+
+.mod-standalone__text {
+    margin-bottom: 0.9rem;
+    line-height: 1.65;
+    color: #40504a;
+}
+
+.mod-standalone__points {
+    display: grid;
+    gap: 0.35rem;
+    margin-bottom: 1.15rem;
+
+    li {
+        position: relative;
+        padding-left: 1.1rem;
+        font-family: "Montserrat", sans-serif;
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: $ck-ink;
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 6px;
+            height: 6px;
+            background-color: $ck-green;
+        }
+    }
+}
+
+.mod-standalone__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 40px;
+    padding: 0 1.1rem;
+    border: 2px solid $ck-green;
+    border-radius: 3px;
+    color: $ck-green;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    &:hover,
+    &:focus-visible {
+        background-color: $ck-green;
+        color: #ffffff;
+    }
+}
+
+/* ---- Crédits ---- */
+.mod-table-wrap {
+    overflow-x: auto;
+    background-color: #ffffff;
+    border: 1px solid $ck-line;
+}
+
+.mod-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+    box-shadow: none;
+
+    th,
+    td {
+        padding: 0.75rem 1rem;
+        font-size: 14px;
+        text-align: left;
+    }
+
+    tr {
+        border: 0;
+        border-bottom: 1px solid $ck-line;
+    }
+
+    thead tr {
+        border-bottom: 1px solid $ck-line;
+    }
+
+    th {
+        font-weight: 700;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: $ck-text-muted;
+        background-color: $ck-paper;
+    }
+
+    td {
+        color: $ck-ink;
+    }
+
+    tbody tr:hover {
+        background-color: $ck-paper;
+    }
+
+    tbody tr:last-child {
+        border-bottom: 0;
+    }
+}
+
+/* ---- Colonne latérale ---- */
+.mod-panel {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border: 1px solid $ck-line;
+    border-top: 4px solid $ck-green;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.06);
+}
+
+.mod-panel__title {
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: $ck-text-muted;
+}
+
+.mod-facts {
+    > div {
+        padding: 0.8rem 0;
+        border-bottom: 1px solid $ck-line;
+
+        &:last-child {
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+    }
+
+    dt {
+        margin-bottom: 0.25rem;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: $ck-text-muted;
+    }
+
+    dd {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1.5;
+        color: $ck-ink;
+        overflow-wrap: anywhere;
+    }
+
+    .mod-facts__id {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .mod-facts__link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border: 1px solid $ck-line;
+        border-radius: 3px;
+        color: $ck-green;
+        transition: background-color 0.2s ease, color 0.2s ease;
+
+        svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background-color: $ck-green;
+            color: #ffffff;
+        }
+    }
+
+    code {
+        padding: 0.15rem 0.45rem;
+        background-color: $ck-paper;
+        border: 1px solid $ck-line;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 13px;
+    }
+}
+
+.mod-requires li {
+    margin-bottom: 0.2rem;
+
+    a {
+        color: $ck-green;
+        border-bottom: 2px solid rgba(14, 52, 28, 0.25);
+        font-size: inherit;
+        font-weight: inherit;
+        transition: border-color 0.2s ease;
+
+        &:hover {
+            border-color: $ck-green;
+        }
+    }
+}
+
+.mod-code {
+    margin-bottom: 0.9rem;
+    padding: 1rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    background-color: #0c2316;
+    color: #d6e6db;
+    border-radius: 3px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.mod-copy {
+    height: 38px;
+    padding: 0 1.1rem;
+    background: none;
+    border: 2px solid $ck-green;
+    border-radius: 3px;
+    color: $ck-green;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+        background-color: $ck-green;
+        color: #ffffff;
+    }
+}
+
+/* ---- Autres mods ---- */
+.mod-others {
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid $ck-line;
+}
+
+.mod-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+    gap: 1rem;
+}
+
+.mod-tile {
+    display: flex;
+    min-width: 0;
+}
+
+.mod-tile__link {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    width: 100%;
+    padding: 1.1rem;
+    background-color: #ffffff;
+    border: 1px solid $ck-line;
+    border-top: 4px solid $ck-green;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.06);
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    &:focus-visible {
+        outline: 3px solid $ck-red;
+        outline-offset: 3px;
+    }
+}
+
+.mod-tile__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background-color: $ck-green;
+    color: #ffffff;
+    border-radius: 3px;
+
+    svg {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+.mod-tile__name {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.3;
+    color: $ck-green;
+}
+
+.mod-tile__category {
+    margin-top: 0.15rem;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $ck-text-muted;
+}
+
+/* ============================================================
+   Page 404
+   ============================================================ */
+main.not-found {
+    min-width: 0;
+    padding: 0;
+    background-color: $ck-paper;
+}
+
+.not-found__inner {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem;
+    text-align: center;
+
+    @include bkp-max(md) {
+        padding: 3.5rem 1rem;
+    }
+
+    h1 {
+        margin-bottom: 1rem;
+    }
+}
+
+.not-found__code {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
+    font-size: 96px;
+    line-height: 1;
+    color: $ck-green;
+    opacity: 0.18;
+
+    @include bkp-max(md) {
+        font-size: 72px;
+    }
+}
+
+.not-found__text {
+    margin-bottom: 2rem;
+    color: $ck-text-muted;
+}
+
+.not-found__link {
+    font-weight: 700;
+    font-size: 14px;
+    color: $ck-green;
+    border-bottom: 2px solid rgba(14, 52, 28, 0.25);
+    padding-bottom: 2px;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+        border-color: $ck-green;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mod-card__link,
+    .mod-tile__link,
+    .mod-card__icon,
+    .mod-card__img,
+    .mod-gallery__link img,
+    .mod-card__more span,
+    .mod-btn {
+        transition: none;
+    }
+}

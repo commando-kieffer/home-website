@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\GalleryModel;
 use App\Models\UserModel;
 use App\Models\CommandoNameModel;
+use App\Models\ModModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Home extends BaseController
 {
@@ -104,6 +106,58 @@ class Home extends BaseController
              . view('pages/galerie', $data)
              . view('generic/footer')
              . view('generic/foot'); 
+    }
+
+    public function mods(): string
+    {
+        $modModel = new ModModel();
+
+        $data = [
+            'title'       => 'Mods Arma Reforger – CK 2004',
+            'description' => 'Les mods Arma Reforger du Commando Kieffer : props, structures, armes, équipements, animations et outils serveur.',
+            'mods'        => $modModel->getMods(),
+            'tools'       => $modModel->getTools(),
+        ];
+
+        return view('generic/head', $data)
+             . view('generic/header')
+             . view('pages/mods', $data)
+             . view('generic/footer')
+             . view('generic/foot');
+    }
+
+    public function mod(string $slug): string
+    {
+        $modModel = new ModModel();
+        $entry = $modModel->find($slug);
+
+        if ($entry === null) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        $data = [
+            'title'       => $entry['name'] . ' – Mods – CK 2004',
+            'description' => $entry['tagline'],
+            'entry'       => $entry,
+            'others'      => $modModel->getOthers($slug),
+        ];
+
+        return view('generic/head', $data)
+             . view('generic/header')
+             . view('pages/mod', $data)
+             . view('generic/footer')
+             . view('generic/foot');
+    }
+
+    public function not_found(): string
+    {
+        $data = ['title' => 'Page introuvable – CK 2004'];
+
+        return view('generic/head', $data)
+             . view('generic/header')
+             . view('pages/not_found')
+             . view('generic/footer')
+             . view('generic/foot');
     }
 
     public function noms(): string

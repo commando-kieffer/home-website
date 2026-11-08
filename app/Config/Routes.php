@@ -17,3 +17,5 @@ $routes->get('/histoire', 'Home::history');
 $routes->get('/galerie', 'Home::galerie');
 $routes->get('/galerie/(:segment)', 'Home::galerie/$1');
 $routes->get('/galerie/(:segment)/photo/(:num)', 'Home::galerie/$1/$2');
+$routes->get('/mods', 'Home::mods');
+$routes->get('/mods/(:segment)', 'Home::mod/$1');
